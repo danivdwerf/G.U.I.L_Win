@@ -2,6 +2,7 @@
 #define WINDOW_H
 
 #include <windows.h>
+#include "Input.h"
 #include "Exception.h"
 
 inline LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -14,9 +15,6 @@ inline LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         case WM_DESTROY:
             PostQuitMessage(0);
         break;
-        case WM_KEYDOWN:
-        std::cout << wParam << '\n';
-        break;
         default:
             return DefWindowProc(hwnd, msg, wParam, lParam);
     }
@@ -28,6 +26,7 @@ class Window
   public: bool isOpen;
   private: HWND window;
   private: MSG msg;
+  public: MSG getMSG(){return msg;}
   private: int windowWidth;
   private: int windowHeight;
 
@@ -71,6 +70,11 @@ class Window
     ShowWindow(this->window, SW_SHOW);
     UpdateWindow(this->window);
     this->isOpen = true;
+  }
+
+  public: void destroyWindow()
+  {
+    DestroyWindow(window);
   }
 
   public: void windowLoop()

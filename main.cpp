@@ -10,6 +10,9 @@ int main(int argc, const char* argv[])
 
   while(window->isOpen)
   {
+    if(Input::getKeyDown(window, Esc))
+      window->destroyWindow();
+      
     window->windowLoop();
   }
 
