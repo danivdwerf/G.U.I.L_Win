@@ -27,6 +27,7 @@ class Window
 {
   public: bool isOpen;
   private: HWND window;
+  public: HWND getHWND() {return window;}
   private: MSG msg;
   private: int windowWidth;
   private: int windowHeight;
