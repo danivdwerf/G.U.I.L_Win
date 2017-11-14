@@ -10,8 +10,9 @@ int main(int argc, const char* argv[])
   window->showWindow();
 
   //Create button Pok.
-  button = new Button(window->getHWND(),"Pok",10, 10, 80, 25, 0x00000200L);
+  button = new Button(window->getHWND(),"Pok",10, 10, 80, 25,WS_EX_OVERLAPPEDWINDOW);
   button->showButton();
+  button->buttonLoop();
 
   while(window->isOpen)
   {

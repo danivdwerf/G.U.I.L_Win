@@ -15,6 +15,7 @@ class Button
 {
   public: bool isOpen;
   private: HWND button;
+  private: BOOL bTitle;
   private: MSG msg;
   private: int x;
   private: int y;
@@ -47,8 +48,16 @@ class Button
       MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
     }
 
-    this->button = CreateWindowEx(style, buttonClassName, title, WS_CHILD | WS_VISIBLE, x, y, width, height, hWndParent , NULL, hInstance,  NULL);
+    this->button = CreateWindowEx(style, buttonClassName, title, WS_CHILD | WS_VISIBLE | SS_OWNERDRAW, x, y, width, height, hWndParent , NULL, hInstance,  NULL);
     if(this->button == NULL)
+    {
+      Exception* exception = new Exception(GetLastError());
+      exception->print();
+      MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
+    }
+
+    this->bTitle = SetWindowText(this->button, title);
+    if(this->bTitle == false)
     {
       Exception* exception = new Exception(GetLastError());
       exception->print();
