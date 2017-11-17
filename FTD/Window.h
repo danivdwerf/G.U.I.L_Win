@@ -12,6 +12,13 @@ inline LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         case WM_CLOSE:
             DestroyWindow(hwnd);
         break;
+
+        case WM_PAINT:
+          PAINTSTRUCT ps;
+          BeginPaint(hwnd, &ps);
+          EndPaint(hwnd, &ps);
+        break;
+
         case WM_DESTROY:
             PostQuitMessage(0);
         break;
@@ -23,19 +30,28 @@ inline LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 class Window
 {
-  public: bool isOpen;
   private: HWND window;
-  private: MSG msg;
-  public: MSG getMSG(){return msg;}
-  private: int windowWidth;
-  private: int windowHeight;
 
-  public: Window(LPCSTR title, int width, int height)
+  private: bool isOpen;
+  public: bool IsOpen(){return this->isOpen;}
+
+  private: MSG msg;
+  public: MSG getMSG(){return this->msg;}
+
+  private: int windowWidth;
+  public: int Width(){return this->windowWidth;}
+
+  private: int windowHeight;
+  public: int Height(){return this->windowHeight;}
+
+  public: Window(LPCSTR title, int width, int height, bool resizable = false, int r = 30, int g = 30, int b = 30)
   {
     this->isOpen = false;
-    const char windowClassName[] = "myWindowindowClasslass";
 
     HMODULE hInstance = GetModuleHandle(nullptr);
+    HBRUSH hbrush = CreateSolidBrush(RGB(r, g, b));
+
+    const char windowClassName[] = "myWindowindowClasslass";
 
     WNDCLASS windowClass;
     windowClass.style = 0;
@@ -45,7 +61,7 @@ class Window
     windowClass.hInstance = hInstance;
     windowClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-    windowClass.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+    windowClass.hbrBackground = hbrush;
     windowClass.lpszMenuName = NULL;
     windowClass.lpszClassName = windowClassName;
 
@@ -62,6 +78,11 @@ class Window
       Exception* exception = new Exception(GetLastError());
       exception->print();
       MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
+    }
+    if(!resizable)
+    {
+      SetWindowLong(this->window, GWL_STYLE, GetWindowLong(this->window, GWL_STYLE)&~WS_SIZEBOX&~WS_MAXIMIZEBOX);
+      // SetWindowLong(this->window, GWL_STYLE, GetWindowLong(this->window, GWL_STYLE)&~WS_MAXIMIZEBOX);
     }
   }
 

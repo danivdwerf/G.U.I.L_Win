@@ -115,7 +115,19 @@ class Input
   public: static bool getKeyDown(Window* window, Keycode keycode)
   {
     MSG msg = window->getMSG();
-    if(msg.message != WM_KEYDOWN)
+    if(msg.message != WM_KEYDOWN && msg.message != WM_SYSKEYDOWN)
+      return false;
+
+    if(msg.wParam != (int)keycode)
+      return false;
+
+    return true;
+  }
+
+  public: static bool getKeyUp(Window* window, Keycode keycode)
+  {
+    MSG msg = window->getMSG();
+    if(msg.message != WM_KEYUP && msg.message != WM_SYSKEYUP)
       return false;
 
     if(msg.wParam != (int)keycode)
