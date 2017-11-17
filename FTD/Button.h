@@ -1,6 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
+// Gdi32.dll    Gdi32.lib   wingdi.h
 #include <windows.h>
 #include "Exception.h"
 
@@ -13,51 +14,27 @@
  */
 class Button
 {
-  public: bool isOpen;
-  private: HWND button;
-  private: BOOL bTitle;
-  private: MSG msg;
+  private: BOOL button;
   private: int x;
   private: int y;
-  private: int buttonWidth;
-  private: int buttonHeight;
+  private: int bWidth;
+  private: int bHeight;
+  private: int eWidth;
+  private: int eHeight;
+  private: HDC hdc;
 
-  public: Button(HWND hWndParent, LPCSTR title, int x, int y, int width, int height, DWORD style)
+  public: Button(HWND hwnd, int x, int y, int bWidth, int bHeight,int eWidth = 0, int eHeight = 0)
   {
-    this->isOpen = false;
-    const char buttonClassName[] = "ButtonClass";
+    this->x = x;
+    this->y = y;
+    this->bWidth = bWidth;
+    this->bHeight = bHeight;
+    this->eWidth = eWidth;
+    this->eHeight = eHeight;
+    this->hdc = GetDC(hwnd);
+    this->button = RoundRect(this->hdc, this->x, this->y, this->x + this->bWidth, this->y + this->bHeight, this->eWidth, this->eHeight);
 
-    HMODULE hInstance = GetModuleHandle(nullptr);
-
-    WNDCLASS buttonClass;
-    buttonClass.style = 1;
-    buttonClass.lpfnWndProc = WndProc;
-    buttonClass.cbClsExtra = 0;
-    buttonClass.cbWndExtra = 0;
-    buttonClass.hInstance = hInstance;
-    buttonClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-    buttonClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-    buttonClass.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
-    buttonClass.lpszMenuName = NULL;
-    buttonClass.lpszClassName = buttonClassName;
-
-    if(!RegisterClass(&buttonClass))
-    {
-      Exception* exception = new Exception(GetLastError());
-      exception->print();
-      MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
-    }
-
-    this->button = CreateWindowEx(style, buttonClassName, title, WS_CHILD | WS_VISIBLE | SS_OWNERDRAW, x, y, width, height, hWndParent , NULL, hInstance,  NULL);
-    if(this->button == NULL)
-    {
-      Exception* exception = new Exception(GetLastError());
-      exception->print();
-      MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
-    }
-
-    this->bTitle = SetWindowText(this->button, title);
-    if(this->bTitle == false)
+    if(this->button == false)
     {
       Exception* exception = new Exception(GetLastError());
       exception->print();
@@ -67,21 +44,10 @@ class Button
 
   public: void showButton()
   {
-    ShowWindow(this->button, SW_SHOW);
-    UpdateWindow(this->button);
-    this->isOpen = true;
   }
 
   public: void buttonLoop()
   {
-    if(GetMessage(&this->msg, NULL, 0, 0) <= 0)
-    {
-      this->isOpen = false;
-      return;
-    }
-
-    TranslateMessage(&this->msg);
-    DispatchMessage(&this->msg);
   }
 };
 #endif
