@@ -1,1 +1,1 @@
-g++ main.cpp -o prog -std=c++11
+g++ main.cpp -o prog -lgdi32 -std=c++11
