@@ -10,7 +10,7 @@ int main(int argc, const char* argv[])
   window->showWindow();
 
   //Create button Pok.
-  button = new Button(window->getHWND() ,10, 10, 80, 25, 4, 4);
+  button = new Button(window->getHWND(), CreatePen(PS_SOLID, 1,0x00FF0000), CreateSolidBrush(0x0000FF00), 10, 10, 80, 25, 6, 6);
 
   while(window->isOpen)
   {

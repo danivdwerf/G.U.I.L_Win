@@ -14,7 +14,6 @@
  */
 class Button
 {
-  private: BOOL button;
   private: int x;
   private: int y;
   private: int bWidth;
@@ -22,8 +21,11 @@ class Button
   private: int eWidth;
   private: int eHeight;
   private: HDC hdc;
+  private: HPEN hpen;
+  private: HBRUSH hbr;
+  private: RECT* button = {};
 
-  public: Button(HWND hwnd, int x, int y, int bWidth, int bHeight,int eWidth = 0, int eHeight = 0)
+  public: Button(HWND hwnd, HPEN hpen, HBRUSH hbr, int x, int y, int bWidth, int bHeight,int eWidth = 0, int eHeight = 0)
   {
     this->x = x;
     this->y = y;
@@ -32,22 +34,27 @@ class Button
     this->eWidth = eWidth;
     this->eHeight = eHeight;
     this->hdc = GetDC(hwnd);
-    this->button = RoundRect(this->hdc, this->x, this->y, this->x + this->bWidth, this->y + this->bHeight, this->eWidth, this->eHeight);
+    this->hpen = hpen;
+    this->hbr = hbr;
+    //this->button = {LONG(x), LONG(y), LONG(x + bWidth), LONG(y + bHeight)};
+    // this->button->left = LONG(x);
+    // this->button->top = LONG(y);
+    // this->button->right = LONG(x + bWidth);
+    // this->button->bottom = LONG(y + bHeight);
 
-    if(this->button == false)
+    SelectObject(this->hdc, this->hpen);
+    if (RoundRect(this->hdc, this->x, this->y, this->x + this->bWidth, this->y + this->bHeight, this->eWidth, this->eHeight) == false)
     {
       Exception* exception = new Exception(GetLastError());
       exception->print();
       MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
     }
-  }
-
-  public: void showButton()
-  {
-  }
-
-  public: void buttonLoop()
-  {
+    // if (FillRect(this->hdc, {LONG(x), LONG(y), LONG(x + bWidth), LONG(y + bHeight)}, this->hbr) == 0) 
+    // {
+    //   Exception* exception = new Exception(GetLastError());
+    //   exception->print();
+    //   MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
+    // }
   }
 };
 #endif
