@@ -120,7 +120,6 @@ class Window
       default:
       return DefWindowProc(hwnd, msg, wParam, lParam);
     }
-
     return 0;
   }
 
