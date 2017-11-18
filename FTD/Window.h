@@ -1,5 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
+#define ID_Help 1
+#define ID_Exit 2
 
 #include <windows.h>
 #include <GL/GL.h>
@@ -7,6 +9,7 @@
 #include "glext.h"
 
 #include "Input.h"
+#include "Menu.h"
 #include "Exception.h"
 
 class Window
@@ -28,6 +31,8 @@ class Window
 
   private: int height;
   public: int Height(){return this->height;}
+
+  private: Menu* menu;
 
   public: Window(LPCSTR title, int width, int height, bool resizable = false, int r = 30, int g = 30, int b = 30)
   {
@@ -58,7 +63,7 @@ class Window
     }
 
     this->window = CreateWindow(windowClassName, title, WS_OVERLAPPEDWINDOW, 0, 0, width, height, NULL, NULL, hInstance, NULL);
-    SetWindowLongPtr(this->window, GWLP_USERDATA, (long)this);
+    SetWindowLongPtr(this->window, GWLP_USERDATA, (LONG_PTR)this);
     if(this->window == NULL)
     {
       Exception* exception = new Exception(GetLastError());
@@ -103,6 +108,10 @@ class Window
       EndPaint(hwnd, &ps);
       break;
 
+      case WM_COMMAND:
+      menu->onMenuAction(wParam);
+      break;
+
       case WM_DESTROY:
       PostQuitMessage(0);
       break;
@@ -119,6 +128,12 @@ class Window
     ShowWindow(this->window, SW_SHOW);
     UpdateWindow(this->window);
     this->isOpen = true;
+  }
+
+  public: void setMenu(Menu* menu)
+  {
+    SetMenu(this->window, menu->MenuObject());
+    this->menu = menu;
   }
 
   public: void destroyWindow()

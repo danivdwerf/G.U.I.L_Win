@@ -5,5 +5,6 @@
 #include "Input.h"
 #include "Window.h"
 #include "OpenGL.h"
+#include "Menu.h"
 
 #endif
