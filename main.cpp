@@ -14,11 +14,9 @@ int main(int argc, const char* argv[])
 
   Menu* menuBar = new Menu("", -1);
   Menu* fileMenu = new Menu("File", -1);
-  Menu* helpMenu = new Menu("Help", 1);
-  Menu* exitMenu = new Menu("Exit", 2, Exit);
+  Menu* exitMenu = new Menu("Exit", 1, Exit);
 
   menuBar->addChildMenu(fileMenu, MF_POPUP);
-  fileMenu->addChildMenu(helpMenu, MF_STRING);
   fileMenu->addChildMenu(exitMenu, MF_STRING);
 
   window->setMenu(menuBar);

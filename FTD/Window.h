@@ -65,7 +65,7 @@ class Window
     this->window = CreateWindow(windowClassName, title, WS_OVERLAPPEDWINDOW, 0, 0, width, height, NULL, NULL, hInstance, NULL);
     SetWindowLongPtr(this->window, GWLP_USERDATA, (LONG_PTR)this);
     if(this->window == NULL)
-    {
+    €{
       Exception* exception = new Exception(GetLastError());
       exception->print();
       MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
@@ -109,7 +109,8 @@ class Window
       break;
 
       case WM_COMMAND:
-      menu->onMenuAction(wParam);
+      if(this->menu != NULL)
+        menu->onMenuAction(wParam);
       break;
 
       case WM_DESTROY:
