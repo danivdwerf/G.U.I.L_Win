@@ -7,7 +7,7 @@ int main(int argc, const char* argv[])
 {
   window = new Window("Hoppakee", 640, 480, true, 30, 30, 30);
   window->showWindow();
-  window->initOPENGL();
+  initOPENGL(window);
 
   while(window->IsOpen())
   {

@@ -12,7 +12,7 @@
 class Window
 {
   private: HWND window;
-  private: HGLRC context;
+  public: HGLRC context;
 
   private: HDC hdc;
   public: HDC m_HDC(){return this->hdc;}
@@ -36,7 +36,7 @@ class Window
     HMODULE hInstance = GetModuleHandle(nullptr);
     HBRUSH hbrush = CreateSolidBrush(RGB(r, g, b));
 
-    const char windowClassName[] = "myWindowindowClasslass";
+    const char windowClassName[] = "Window";
 
     WNDCLASS windowClass;
     windowClass.style = CS_OWNDC;
@@ -86,7 +86,7 @@ class Window
     switch(msg)
     {
       case WM_CLOSE:
-      DestroyWindow(hwnd);
+      this->destroyWindow();
       break;
 
       case WM_SIZE:
@@ -126,67 +126,6 @@ class Window
     wglMakeCurrent(this->hdc, NULL);
     wglDeleteContext(this->context);
     DestroyWindow(this->window);
-  }
-
-  public: bool initOPENGL()
-  {
-    PIXELFORMATDESCRIPTOR pfd = {sizeof(PIXELFORMATDESCRIPTOR), 1, PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER, PFD_TYPE_RGBA, 32, 0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 24, 8, 0, PFD_MAIN_PLANE, 0, 0, 0, 0};
-    int pixelFormat = ChoosePixelFormat(this->hdc, &pfd);
-    if(pixelFormat <= 0)
-    {
-      Exception* exception = new Exception(GetLastError());
-      exception->print();
-      MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
-      return false;
-    }
-
-    if(!SetPixelFormat(this->hdc, pixelFormat, &pfd))
-    {
-      Exception* exception = new Exception(GetLastError());
-      exception->print();
-      MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
-      return false;
-    }
-
-    HGLRC tempCTX = wglCreateContext(this->hdc);
-    if(!wglMakeCurrent(this->hdc, tempCTX))
-    {
-      Exception* exception = new Exception(GetLastError());
-      exception->print();
-      MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
-      return false;
-    }
-
-    //Create context for newer GL versions
-    PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC) wglGetProcAddress("wglChoosePixelFormatARB");
-    if(wglChoosePixelFormatARB != NULL)
-    {
-      const int attribList[] =
-      {
-        WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
-        WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-        WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-        WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-        WGL_COLOR_BITS_ARB, 32,
-        WGL_DEPTH_BITS_ARB, 24,
-        WGL_STENCIL_BITS_ARB, 8,
-        0,
-      };
-
-      pixelFormat = 0;
-      UINT numFormats = 0;
-
-      wglChoosePixelFormatARB(this->hdc, attribList, NULL, 1, &pixelFormat, &numFormats);
-      SetPixelFormat(this->hdc, pixelFormat, &pfd);
-      HGLRC newCTX = wglCreateContext(this->hdc);
-      wglMakeCurrent(NULL, NULL);
-      wglDeleteContext(tempCTX);
-      wglMakeCurrent(this->hdc, newCTX);
-      tempCTX = newCTX;
-    }
-
-    this->context = tempCTX;
-    return true;
   }
 
   public: void windowLoop()

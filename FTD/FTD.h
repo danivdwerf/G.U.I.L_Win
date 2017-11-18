@@ -4,5 +4,6 @@
 #include "Exception.h"
 #include "Input.h"
 #include "Window.h"
+#include "OpenGL.h"
 
 #endif
