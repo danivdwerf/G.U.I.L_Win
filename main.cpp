@@ -2,7 +2,7 @@
 
 #include "FTD/FTD.h"
 Window* window;
-Button* button;
+Cell* foo;
 
 int main(int argc, const char* argv[])
 {
@@ -10,10 +10,15 @@ int main(int argc, const char* argv[])
   window->showWindow();
   //initOPENGL(window);
 
-  //Create button Pok.
-  button = new Button(window->getHWND(), CreatePen(PS_SOLID, 1,0x00FF0000), CreateSolidBrush(0x0000FF00), 10, 10, 80, 25, 6, 6);
+  //Create cell
+  RECT rect;
+    rect.left = 20;
+    rect.top = 20;
+    rect.right = 60;
+    rect.bottom = 60;
+  foo = new Cell(window->getWindow(), rect, CreateSolidBrush( RGB(255, 0, 0) ), 40, 40);
 
-  while(window->isOpen())
+  while(window->IsOpen())
   {
     //Handle keys
     if(Input::getKeyDown(window, Esc))

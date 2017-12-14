@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-g++ main.cpp -o prog -lgdi32 -std=c++11
-=======
 g++ main.cpp -o prog -lgdi32 -lopengl32 -lglu32 -std=c++11
->>>>>>> development

@@ -12,6 +12,7 @@
 class Window
 {
   private: HWND window;
+  public: HWND getWindow(){return this->window;}
   public: HGLRC context;
 
   private: HDC hdc;
@@ -58,7 +59,7 @@ class Window
     }
 
     this->window = CreateWindow(windowClassName, title, WS_OVERLAPPEDWINDOW, 0, 0, width, height, NULL, NULL, hInstance, NULL);
-    SetWindowLongPtr(this->window, GWLP_USERDATA, (long)this);
+    SetWindowLongPtr(this->window, GWLP_USERDATA, (LONG_PTR)this);
     if(this->window == NULL)
     {
       Exception* exception = new Exception(GetLastError());

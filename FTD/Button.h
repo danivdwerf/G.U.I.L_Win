@@ -36,11 +36,6 @@ class Button
     this->hdc = GetDC(hwnd);
     this->hpen = hpen;
     this->hbr = hbr;
-    //this->button = {LONG(x), LONG(y), LONG(x + bWidth), LONG(y + bHeight)};
-    // this->button->left = LONG(x);
-    // this->button->top = LONG(y);
-    // this->button->right = LONG(x + bWidth);
-    // this->button->bottom = LONG(y + bHeight);
 
     SelectObject(this->hdc, this->hpen);
     if (RoundRect(this->hdc, this->x, this->y, this->x + this->bWidth, this->y + this->bHeight, this->eWidth, this->eHeight) == false)
