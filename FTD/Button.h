@@ -14,42 +14,11 @@
  */
 class Button
 {
-  private: int x;
-  private: int y;
-  private: int bWidth;
-  private: int bHeight;
-  private: int eWidth;
-  private: int eHeight;
-  private: HDC hdc;
-  private: HPEN hpen;
-  private: HBRUSH hbr;
-  private: RECT* button = {};
+  private: Cell* visual;
 
-  public: Button(HWND hwnd, HPEN hpen, HBRUSH hbr, int x, int y, int bWidth, int bHeight,int eWidth = 0, int eHeight = 0)
+  public: Button(HWND hwnd, const RECT info, const HBRUSH& clr,int eWidth, int eHeight)
   {
-    this->x = x;
-    this->y = y;
-    this->bWidth = bWidth;
-    this->bHeight = bHeight;
-    this->eWidth = eWidth;
-    this->eHeight = eHeight;
-    this->hdc = GetDC(hwnd);
-    this->hpen = hpen;
-    this->hbr = hbr;
-
-    SelectObject(this->hdc, this->hpen);
-    if (RoundRect(this->hdc, this->x, this->y, this->x + this->bWidth, this->y + this->bHeight, this->eWidth, this->eHeight) == false)
-    {
-      Exception* exception = new Exception(GetLastError());
-      exception->print();
-      MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
-    }
-    // if (FillRect(this->hdc, {LONG(x), LONG(y), LONG(x + bWidth), LONG(y + bHeight)}, this->hbr) == 0) 
-    // {
-    //   Exception* exception = new Exception(GetLastError());
-    //   exception->print();
-    //   MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
-    // }
+    this->visual = new Cell(hwnd, info, clr, eWidth, eHeight);
   }
 };
 #endif

@@ -2,7 +2,7 @@
 
 #include "FTD/FTD.h"
 Window* window;
-Cell* foo;
+Button* button;
 
 int main(int argc, const char* argv[])
 {
@@ -16,7 +16,7 @@ int main(int argc, const char* argv[])
     rect.top = 20;
     rect.right = 60;
     rect.bottom = 60;
-  foo = new Cell(window->getWindow(), rect, CreateSolidBrush( RGB(255, 0, 0) ), 40, 40);
+  button = new Button(window->getWindow(), rect, CreateSolidBrush( RGB(255, 0, 0) ), 40, 40);
 
   while(window->IsOpen())
   {
