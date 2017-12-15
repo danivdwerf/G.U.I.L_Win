@@ -9,9 +9,17 @@
 #include "Input.h"
 #include "Exception.h"
 
+/**
+ * C++11 Window.h
+ * Purpose: Create a Window.
+ * 
+ * @author RensvWalstijn
+ * @author DanivdWerf
+ */
 class Window
 {
   private: HWND window;
+  public: HWND getWindow(){return this->window;}
   public: HGLRC context;
 
   private: HDC hdc;
@@ -29,7 +37,7 @@ class Window
   private: int height;
   public: int Height(){return this->height;}
 
-  public: Window(LPCSTR title, int width, int height, bool resizable = false, int r = 30, int g = 30, int b = 30)
+  public: Window(LPCSTR title,int x, int y, int width, int height, bool resizable = false, int r = 30, int g = 30, int b = 30)
   {
     this->isOpen = false;
 
@@ -57,8 +65,8 @@ class Window
       MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
     }
 
-    this->window = CreateWindow(windowClassName, title, WS_OVERLAPPEDWINDOW, 0, 0, width, height, NULL, NULL, hInstance, NULL);
-    SetWindowLongPtr(this->window, GWLP_USERDATA, (long)this);
+    this->window = CreateWindow(windowClassName, title, WS_OVERLAPPEDWINDOW, x - 7, y, width, height, NULL, NULL, hInstance, NULL);
+    SetWindowLongPtr(this->window, GWLP_USERDATA, (LONG_PTR)this);
     if(this->window == NULL)
     {
       Exception* exception = new Exception(GetLastError());
@@ -138,6 +146,14 @@ class Window
 
     TranslateMessage(&this->msg);
     DispatchMessage(&this->msg);
+  }
+
+  public: RECT GetWindowPos() {
+    RECT rect;
+    if(GetWindowRect(this->getWindow(), &rect)) {
+      rect.left += 7;
+      return rect;
+    }
   }
 };
 #endif
