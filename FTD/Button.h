@@ -2,7 +2,6 @@
 #define BUTTON_H
 
 // Gdi32.dll    Gdi32.lib   wingdi.h
-#include <windows.h>
 #include "Exception.h"
 
 /**
@@ -16,9 +15,9 @@ class Button
 {
   private: Cell* visual;
 
-  public: Button(HWND hwnd, const RECT info, const HBRUSH& clr,int eWidth, int eHeight)
+  public: Button(HWND hwnd, LONG x, LONG y, LONG right, LONG bottom, const HBRUSH& clr,int eWidth, int eHeight)
   {
-    this->visual = new Cell(hwnd, info, clr, eWidth, eHeight);
+    this->visual = new Cell(hwnd, x, y, right, bottom, clr, eWidth, eHeight);
   }
 };
 #endif

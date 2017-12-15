@@ -1,5 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
+#define ID_Help 1
+#define ID_Exit 2
 
 #include <windows.h>
 #include <GL/GL.h>
@@ -7,8 +9,16 @@
 #include "glext.h"
 
 #include "Input.h"
+#include "Menu.h"
 #include "Exception.h"
 
+/**
+ * C++11 Window.h
+ * Purpose: Create a Window.
+ * 
+ * @author RensvWalstijn
+ * @author DanivdWerf
+ */
 class Window
 {
   private: HWND window;
@@ -30,7 +40,9 @@ class Window
   private: int height;
   public: int Height(){return this->height;}
 
-  public: Window(LPCSTR title, int width, int height, bool resizable = false, int r = 30, int g = 30, int b = 30)
+  private: Menu* menu;
+
+  public: Window(LPCSTR title,int x, int y, int width, int height, bool resizable = false, int r = 30, int g = 30, int b = 30)
   {
     this->isOpen = false;
 
@@ -58,7 +70,7 @@ class Window
       MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
     }
 
-    this->window = CreateWindow(windowClassName, title, WS_OVERLAPPEDWINDOW, 0, 0, width, height, NULL, NULL, hInstance, NULL);
+    this->window = CreateWindow(windowClassName, title, WS_OVERLAPPEDWINDOW, x - 7, y, width, height, NULL, NULL, hInstance, NULL);
     SetWindowLongPtr(this->window, GWLP_USERDATA, (LONG_PTR)this);
     if(this->window == NULL)
     {
@@ -104,6 +116,11 @@ class Window
       EndPaint(hwnd, &ps);
       break;
 
+      case WM_COMMAND:
+      if(this->menu != NULL)
+        menu->onMenuAction(wParam);
+      break;
+
       case WM_DESTROY:
       PostQuitMessage(0);
       break;
@@ -111,7 +128,6 @@ class Window
       default:
       return DefWindowProc(hwnd, msg, wParam, lParam);
     }
-
     return 0;
   }
 
@@ -120,6 +136,12 @@ class Window
     ShowWindow(this->window, SW_SHOW);
     UpdateWindow(this->window);
     this->isOpen = true;
+  }
+
+  public: void setMenu(Menu* menu)
+  {
+    SetMenu(this->window, menu->MenuObject());
+    this->menu = menu;
   }
 
   public: void destroyWindow()
@@ -139,6 +161,14 @@ class Window
 
     TranslateMessage(&this->msg);
     DispatchMessage(&this->msg);
+  }
+
+  public: RECT GetWindowPos() {
+    RECT rect;
+    if(GetWindowRect(this->getWindow(), &rect)) {
+      rect.left += 7;
+      return rect;
+    }
   }
 };
 #endif
