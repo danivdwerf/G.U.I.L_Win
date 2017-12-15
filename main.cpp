@@ -32,7 +32,7 @@ int main(int argc, const char* argv[])
     rect.top = 20;
     rect.right = 60;
     rect.bottom = 60;
-  button = new Button(window->getWindow(), rect, CreateSolidBrush( RGB(255, 0, 0) ), 40, 40);
+  button = new Button(window->getWindow(), 20, 20, 60, 60, CreateSolidBrush( RGB(255, 0, 0) ), 40, 40);
 
   // Create mouse
   mouse = new Mouse(window->GetWindowPos());
