@@ -24,7 +24,7 @@ class Cell
     this->info.top = y;
     this->info.right = right;
     this->info.bottom = bottom;
-    this->cell = CreateRoundRectRgn(info.left, info.top, info.right, info.bottom, eWidth, eHeight);
+    this->cell = CreateRoundRectRgn(this->info.left, this->info.top, this->info.right, this->info.bottom, eWidth, eHeight);
     if (this->cell == NULL)
     {
       Exception* exception = new Exception(GetLastError());
