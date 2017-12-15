@@ -1,5 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
+#define ID_Help 1
+#define ID_Exit 2
 
 #include <windows.h>
 #include <GL/GL.h>
@@ -7,6 +9,7 @@
 #include "glext.h"
 
 #include "Input.h"
+#include "Menu.h"
 #include "Exception.h"
 
 /**
@@ -37,7 +40,13 @@ class Window
   private: int height;
   public: int Height(){return this->height;}
 
+<<<<<<< HEAD
   public: Window(LPCSTR title,int x, int y, int width, int height, bool resizable = false, int r = 30, int g = 30, int b = 30)
+=======
+  private: Menu* menu;
+
+  public: Window(LPCSTR title, int width, int height, bool resizable = false, int r = 30, int g = 30, int b = 30)
+>>>>>>> 9c8549c3d5ab104e1a2b5dba860f17a6151ad3b8
   {
     this->isOpen = false;
 
@@ -65,7 +74,11 @@ class Window
       MessageBox(NULL, "Something went wrong :(", "Error!", MB_ICONEXCLAMATION | MB_OK);
     }
 
+<<<<<<< HEAD
     this->window = CreateWindow(windowClassName, title, WS_OVERLAPPEDWINDOW, x - 7, y, width, height, NULL, NULL, hInstance, NULL);
+=======
+    this->window = CreateWindow(windowClassName, title, WS_OVERLAPPEDWINDOW, 0, 0, width, height, NULL, NULL, hInstance, NULL);
+>>>>>>> 9c8549c3d5ab104e1a2b5dba860f17a6151ad3b8
     SetWindowLongPtr(this->window, GWLP_USERDATA, (LONG_PTR)this);
     if(this->window == NULL)
     {
@@ -111,6 +124,11 @@ class Window
       EndPaint(hwnd, &ps);
       break;
 
+      case WM_COMMAND:
+      if(this->menu != NULL)
+        menu->onMenuAction(wParam);
+      break;
+
       case WM_DESTROY:
       PostQuitMessage(0);
       break;
@@ -118,7 +136,6 @@ class Window
       default:
       return DefWindowProc(hwnd, msg, wParam, lParam);
     }
-
     return 0;
   }
 
@@ -127,6 +144,12 @@ class Window
     ShowWindow(this->window, SW_SHOW);
     UpdateWindow(this->window);
     this->isOpen = true;
+  }
+
+  public: void setMenu(Menu* menu)
+  {
+    SetMenu(this->window, menu->MenuObject());
+    this->menu = menu;
   }
 
   public: void destroyWindow()

@@ -5,9 +5,24 @@ Window* window;
 Button* button;
 Mouse* mouse;
 
+void Exit()
+{
+  window->destroyWindow();
+}
+
 int main(int argc, const char* argv[])
 {
-  window = new Window("Hoppakee",0, 0, 640, 480, true, 30, 30, 30);
+  window = new Window("Hoppakee", 0, 0, 640, 480, true, 30, 30, 30);
+
+  Menu* menuBar = new Menu("", -1);
+  Menu* fileMenu = new Menu("File", -1);
+  Menu* exitMenu = new Menu("Exit", 1, Exit);
+
+  menuBar->addChildMenu(fileMenu, MF_POPUP);
+  fileMenu->addChildMenu(exitMenu, MF_STRING);
+
+  window->setMenu(menuBar);
+
   window->showWindow();
   //initOPENGL(window);
 
