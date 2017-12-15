@@ -4,6 +4,7 @@
 #include "Exception.h"
 #include "Input.h"
 #include "Window.h"
+#include "Mouse.h"
 #include "Cell.h"
 #include "Button.h"
 #include "OpenGL.h"

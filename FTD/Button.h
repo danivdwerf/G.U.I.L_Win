@@ -2,7 +2,6 @@
 #define BUTTON_H
 
 // Gdi32.dll    Gdi32.lib   wingdi.h
-#include <windows.h>
 #include "Exception.h"
 
 /**
