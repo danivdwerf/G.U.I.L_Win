@@ -26,12 +26,7 @@ int main(int argc, const char* argv[])
   window->showWindow();
   //initOPENGL(window);
 
-  //Create cell
-  RECT rect;
-    rect.left = 20;
-    rect.top = 20;
-    rect.right = 60;
-    rect.bottom = 60;
+  // Create button
   button = new Button(window->getWindow(), 20, 20, 60, 60, CreateSolidBrush( RGB(255, 0, 0) ), 40, 40);
 
   // Create mouse
