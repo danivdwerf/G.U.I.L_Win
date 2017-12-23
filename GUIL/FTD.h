@@ -8,5 +8,6 @@
 #include "Cell.h"
 #include "Button.h"
 #include "OpenGL.h"
+#include "Menu.h"
 
 #endif
