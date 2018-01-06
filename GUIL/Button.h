@@ -15,9 +15,9 @@ class Button
 {
   private: Cell* visual;
 
-  public: Button(HWND hwnd, LONG x, LONG y, LONG right, LONG bottom, const HBRUSH& clr,int eWidth, int eHeight)
+  public: Button(HWND hwnd, LONG x, LONG y, LONG bWidth, LONG bHeight, const HBRUSH& clr,int eWidth, int eHeight)
   {
-    this->visual = new Cell(hwnd, x, y, right, bottom, clr, eWidth, eHeight);
+    this->visual = new Cell(hwnd, x, y, bWidth, bHeight, clr, eWidth, eHeight);
   }
 };
 #endif
