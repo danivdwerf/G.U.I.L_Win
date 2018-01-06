@@ -18,12 +18,12 @@ class Cell
   public: RECT getRect() { return this->info; }
   private: HRGN cell;
 
-  public: Cell(HWND hwnd, LONG x, LONG y, LONG right, LONG bottom, const HBRUSH& clr,int eWidth = 0, int eHeight = 0)
+  public: Cell(HWND hwnd, LONG x, LONG y, LONG cWidth, LONG cHeight, const HBRUSH& clr,int eWidth = 0, int eHeight = 0)
   {
     this->info.left = x;
     this->info.top = y;
-    this->info.right = right;
-    this->info.bottom = bottom;
+    this->info.right = x + cWidth;
+    this->info.bottom = y + cHeight;
     this->cell = CreateRoundRectRgn(this->info.left, this->info.top, this->info.right, this->info.bottom, eWidth, eHeight);
     if (this->cell == NULL)
     {

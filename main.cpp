@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "FTD/FTD.h"
+#include "GUIL/GUIL.h"
 Window* window;
 Button* button0;
 Button* button1;
@@ -30,10 +30,10 @@ int main(int argc, const char* argv[])
   //initOPENGL(window);
 
   // Create button
-  button0 = new Button(window->getWindow(), 20, 20, 60, 60, CreateSolidBrush( RGB(255, 0, 0) ), 40, 40);
-  button1 = new Button(window->getWindow(), 20, 100, 100, 150, CreateSolidBrush( RGB(0, 255, 0) ), 40, 40);
-  button2 = new Button(window->getWindow(), 20, 200, 200, 250, CreateSolidBrush( RGB(0, 0, 255) ), 0, 0);
-  button3 = new Button(window->getWindow(), 20, 300, 300, 350, CreateSolidBrush( RGB(0, 255, 255) ), 20, 20);
+  button0 = new Button(window->getWindow(), 20, 20, 40, 40, CreateSolidBrush( RGB(255, 0, 0) ), 40, 40);
+  button1 = new Button(window->getWindow(), 20, 100, 80, 50, CreateSolidBrush( RGB(0, 255, 0) ), 40, 40);
+  button2 = new Button(window->getWindow(), 20, 200, 180, 50, CreateSolidBrush( RGB(0, 0, 255) ), 0, 0);
+  button3 = new Button(window->getWindow(), 20, 300, 280, 50, CreateSolidBrush( RGB(0, 255, 255) ), 20, 20);
 
   // Create mouse
   mouse = new Mouse(window->GetWindowPos());
