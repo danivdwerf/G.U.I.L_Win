@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "FTD/FTD.h"
+#include "GUIL/GUIL.h"
 Window* window;
 Button* button0;
 Button* button1;
