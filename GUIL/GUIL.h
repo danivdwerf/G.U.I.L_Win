@@ -1,5 +1,5 @@
-#ifndef FTD_H
-#define FTD_H
+#ifndef GUIL_H
+#define GUIL_H
 
 #include "Exception.h"
 #include "Input.h"
